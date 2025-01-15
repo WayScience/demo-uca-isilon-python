@@ -3,6 +3,7 @@ Prepares files for the demonstration work.
 """
 
 import pathlib
+
 import requests
 
 # URL of the file to download

@@ -15,19 +15,19 @@ classifiers = [
 ]
 dynamic = [ "version" ]
 dependencies = [
-    "jupyterlab>=4.3.4",
-    "requests>=2.32.3",
+  "jupyterlab>=4.3.4",
+  "requests>=2.32.3",
 ]
 
 [dependency-groups]
 # dependency groups for uv
 dev = [
+  "black>=24.10",
+  "isort>=5.13.2",
+  "jupyterlab-code-formatter>=3.0.2",
+  "jupytext>=1.16.6",
   "pre-commit>=4.0.1",
   "setuptools-scm>=8.1",
-      "black>=24.10.0",
-    "isort>=5.13.2",
-        "jupyterlab-code-formatter>=3.0.2",
-    "jupytext>=1.16.6",
 ]
 
 [tool.setuptools_scm]

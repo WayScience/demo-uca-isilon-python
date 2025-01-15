@@ -22,4 +22,3 @@ default:
     #!{{hashbang}}
     uv run pre-commit run -a
     uv run pytest
-
