@@ -1,0 +1,69 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [ "setuptools>=64", "setuptools-scm>=8" ]
+
+[project]
+name = "demo-uca-isilon-python"
+description = "Demonstrating capabilities with the University of Colorado Anschutz (UCA) Isilon storage solution using Python."
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dynamic = [ "version" ]
+dependencies = [
+    "jupyterlab>=4.3.4",
+    "requests>=2.32.3",
+]
+
+[dependency-groups]
+# dependency groups for uv
+dev = [
+  "pre-commit>=4.0.1",
+  "setuptools-scm>=8.1",
+      "black>=24.10.0",
+    "isort>=5.13.2",
+        "jupyterlab-code-formatter>=3.0.2",
+    "jupytext>=1.16.6",
+]
+
+[tool.setuptools_scm]
+root = "."
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+fix = true
+lint.select = [
+  # flake8-builtins
+  "A",
+  # flake8-annotations
+  "ANN",
+  # flake8-comprehensions
+  "C4",
+  # mccabe
+  "C90",
+  # pycodestyle
+  "E",
+  # pyflakes
+  "F",
+  # isort
+  "I",
+  # pylint
+  "PL",
+  # ruff
+  "RUF",
+  # flake8-simplify
+  "SIM",
+  "W",
+]
+# Ignore `E402` and `F401` (unused imports) in all `__init__.py` files
+lint.per-file-ignores."__init__.py" = [ "F401" ]
+# ignore typing rules for tests
+lint.per-file-ignores."tests/*" = [ "ANN201", "PLR0913", "PLR2004" ]
+
+[tool.jupytext]
+formats = "ipynb,py:light"
