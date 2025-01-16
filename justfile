@@ -54,3 +54,6 @@ default:
 
     # run the test, storing the results in a notebook
     uv run papermill src/demo/demo.ipynb src/demo/demo.ipynb
+
+    # share a friendly message
+    echo "Demo completed. The results are stored in src/demo/demo.ipynb."
