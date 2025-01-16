@@ -6,17 +6,21 @@ import pathlib
 
 import requests
 
-# URL of the file to download
+# references to dirs we'll work with
 download_dir = "src/demo/data/input"
+output_dir = "src/demo/data/output"
 
-# create dir if it doesn't already exist
+# create dirs if they don't already exist
 pathlib.Path(download_dir).mkdir(parents=True, exist_ok=True)
+pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
 
+# setup filenames and figshare urls for demonstration work
 images = {
     "B1_01_2_1_GFP_001.tif": "https://figshare.com/ndownloader/files/39518140",
     "B1_01_2_2_GFP_001.tif": "https://figshare.com/ndownloader/files/39518143",
 }
 
+# download the files for work with the demonstration
 for filename, url in images.items():
     try:
         # Send GET request to the URL

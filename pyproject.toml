@@ -16,7 +16,10 @@ classifiers = [
 dynamic = [ "version" ]
 dependencies = [
   "jupyterlab>=4.3.4",
+  "matplotlib>=3.10",
+  "papermill>=2.6",
   "requests>=2.32.3",
+  "scikit-image>=0.25",
 ]
 
 [dependency-groups]
@@ -60,10 +63,8 @@ lint.select = [
   "SIM",
   "W",
 ]
-# Ignore `E402` and `F401` (unused imports) in all `__init__.py` files
-lint.per-file-ignores."__init__.py" = [ "F401" ]
-# ignore typing rules for tests
-lint.per-file-ignores."tests/*" = [ "ANN201", "PLR0913", "PLR2004" ]
+# ignore typing rules for demo file
+lint.per-file-ignores."demo.py" = [ "E501" ]
 
 [tool.jupytext]
 formats = "ipynb,py:light"
