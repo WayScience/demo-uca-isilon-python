@@ -1,0 +1,43 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+---
+cff-version: 1.2.0
+title: demo-uca-isilon-python
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.s
+type: software
+authors:
+  - given-names: Dave
+    family-names: Bunten
+    orcid: 'https://orcid.org/0000-0001-6041-3665'
+repository-code: 'https://github.com/WayScience/demo-uca-isilon-python'
+abstract: >-
+  Demonstrating capabilities with the University of Colorado Anschutz
+  (UCA) Isilon storage solution using Python.
+keywords:
+  - python
+  - storage
+  - isilon
+  - demonstration
+license: BSD-3-Clause
+references:
+  - title: >-
+      Plate 2 (Cell Painting images from Plate 2 for NF1_cellpainting_data project)
+    type: data
+    url: https://figshare.com/articles/dataset/Plate_2/22233700
+    notes: >-
+      Image data for related NF1_cellpainting_data parquet sqlite.
+    authors:
+    - family-names: Tomkinson
+      given-names: Jenna
+    - family-names: Mattson-Hoss
+      given-names: Michelle
+    - family-names: Sarnoff
+      given-names: Herb
+    - family-names: Way
+      given-names: Gregory
+    date-published: "2023-04-12"
+    identifiers:
+    - type: doi
+      value: 10.6084/m9.figshare.22233700.v4

@@ -1,0 +1,70 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [ "setuptools>=64", "setuptools-scm>=8" ]
+
+[project]
+name = "demo-uca-isilon-python"
+description = "Demonstrating capabilities with the University of Colorado Anschutz (UCA) Isilon storage solution using Python."
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dynamic = [ "version" ]
+dependencies = [
+  "jupyterlab>=4.3.4",
+  "matplotlib>=3.10",
+  "papermill>=2.6",
+  "requests>=2.32.3",
+  "scikit-image>=0.25",
+]
+
+[dependency-groups]
+# dependency groups for uv
+dev = [
+  "black>=24.10",
+  "isort>=5.13.2",
+  "jupyterlab-code-formatter>=3.0.2",
+  "jupytext>=1.16.6",
+  "pre-commit>=4.0.1",
+  "setuptools-scm>=8.1",
+]
+
+[tool.setuptools_scm]
+root = "."
+
+[tool.ruff]
+target-version = "py38"
+line-length = 88
+fix = true
+lint.select = [
+  # flake8-builtins
+  "A",
+  # flake8-annotations
+  "ANN",
+  # flake8-comprehensions
+  "C4",
+  # mccabe
+  "C90",
+  # pycodestyle
+  "E",
+  # pyflakes
+  "F",
+  # isort
+  "I",
+  # pylint
+  "PL",
+  # ruff
+  "RUF",
+  # flake8-simplify
+  "SIM",
+  "W",
+]
+# ignore typing rules for demo file
+lint.per-file-ignores."demo.py" = [ "E501" ]
+
+[tool.jupytext]
+formats = "ipynb,py:light"
