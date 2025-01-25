@@ -24,12 +24,6 @@ default:
     #!{{hashbang}}
     uv pip install '.'
 
-# run testing on development source
-@test:
-    #!{{hashbang}}
-    uv run pre-commit run -a
-    uv run pytest
-
 # mount a uca cifs / samba
 @mount-isilon:
     #!{{hashbang}}
