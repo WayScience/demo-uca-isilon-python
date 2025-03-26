@@ -510,7 +510,7 @@ wheels = [
 
 [[package]]
 name = "demo-uca-isilon-python"
-version = "0.1.dev4+g7307f48.d20250116"
+version = "0.1.dev2+g88bfd1b.d20250326"
 source = { editable = "." }
 dependencies = [
     { name = "jupyterlab" },

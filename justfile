@@ -10,9 +10,9 @@ hashbang := if os() == 'macos' {
 
 # cifs / samba command based on operating system
 cifs_or_samba_mount_command := if os() == 'macos' {
-	'mount_smbfs //data.ucdenver.pvt/dept/SOM/SOMDean/Testing/DBMITest ~/mnt/isilon'
+	'mount_smbfs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot ~/mnt/isilon'
 } else {
-	'sudo mount -t cifs //data.ucdenver.pvt/dept/SOM/SOMDean/Testing/DBMITest -o username='
+	'sudo mount -t cifs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot -o username='
 }
 
 # show a list of just commands for this project
