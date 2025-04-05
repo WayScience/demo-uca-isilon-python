@@ -10,7 +10,7 @@ Our approach here focuses on mounting the Isilon path to a local directory on a 
 1. [Install `uv`](https://docs.astral.sh/uv/getting-started/installation/).
 1. [Install `just`](https://github.com/casey/just?tab=readme-ov-file#installation).
 1. Install package locally (e.g. `uv pip install -e "."`).
-1. Run various other tasks using [just](https://github.com/casey/just) (e.g. `just tiff_to_omezarr`)
+1. Run various other tasks using [just](https://github.com/casey/just) (e.g. `just run-isilon-demo`)
 
 ## Tasks
 

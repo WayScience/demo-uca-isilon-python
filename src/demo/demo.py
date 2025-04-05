@@ -12,14 +12,14 @@
 #     name: python3
 # ---
 
-# + [markdown] papermill={"duration": 0.001344, "end_time": "2025-01-16T17:49:48.873038", "exception": false, "start_time": "2025-01-16T17:49:48.871694", "status": "completed"}
+# + [markdown] papermill={"duration": 0.004578, "end_time": "2025-01-16T17:54:07.495347", "exception": false, "start_time": "2025-01-16T17:54:07.490769", "status": "completed"}
 # # University of Colorado Anschutz Isilon with Python Demonstration Notebook
 #
 # This notebook demonstrates various work with files to better
 # understand how the University of Colorado Anschutz Isilon
 # storage solution performs.
 
-# + papermill={"duration": 0.325393, "end_time": "2025-01-16T17:49:49.201157", "exception": false, "start_time": "2025-01-16T17:49:48.875764", "status": "completed"}
+# + papermill={"duration": 0.342874, "end_time": "2025-01-16T17:54:07.842190", "exception": false, "start_time": "2025-01-16T17:54:07.499316", "status": "completed"}
 import pathlib
 import shutil
 
@@ -29,27 +29,33 @@ from skimage import io
 # setup a data directory reference
 source_data_dir = str(pathlib.Path("src/demo/data/input").resolve())
 target_data_dir = str(pathlib.Path("src/demo/data/output").resolve())
-isilon_dir = pathlib.Path("~/mnt/isilon").expanduser()
+isilon_dir = pathlib.Path("~/mnt/isilon/example").expanduser()
 
-# + papermill={"duration": 0.006053, "end_time": "2025-01-16T17:49:49.208266", "exception": false, "start_time": "2025-01-16T17:49:49.202213", "status": "completed"}
+# + papermill={"duration": 0.005683, "end_time": "2025-01-16T17:54:07.848952", "exception": false, "start_time": "2025-01-16T17:54:07.843269", "status": "completed"}
 # show the files
 print("List of files:\n", list(pathlib.Path(source_data_dir).rglob("*.tif")))
 
-# + papermill={"duration": 0.292352, "end_time": "2025-01-16T17:49:49.947420", "exception": false, "start_time": "2025-01-16T17:49:49.655068", "status": "completed"}
+# +
+# %%time
+
+# create a directory within isilon storage to add files
+isilon_dir.mkdir(exist_ok=True)
+
+# + papermill={"duration": 0.27517, "end_time": "2025-01-16T17:54:08.126964", "exception": false, "start_time": "2025-01-16T17:54:07.851794", "status": "completed"}
 # %%time
 
 # upload the files to isilon one by one
 for image_file in pathlib.Path(source_data_dir).rglob("*.tif"):
     shutil.copy(src=image_file, dst=isilon_dir)
 
-# + papermill={"duration": 0.1294, "end_time": "2025-01-16T17:49:50.079102", "exception": false, "start_time": "2025-01-16T17:49:49.949702", "status": "completed"}
+# + papermill={"duration": 0.125019, "end_time": "2025-01-16T17:54:08.255048", "exception": false, "start_time": "2025-01-16T17:54:08.130029", "status": "completed"}
 # %%time
 
 # download the files to isilon one by one
 for image_file in pathlib.Path(isilon_dir).rglob("*.tif"):
     shutil.copy(src=image_file, dst=target_data_dir)
 
-# + papermill={"duration": 0.169881, "end_time": "2025-01-16T17:49:50.252137", "exception": false, "start_time": "2025-01-16T17:49:50.082256", "status": "completed"}
+# + papermill={"duration": 0.166833, "end_time": "2025-01-16T17:54:08.424427", "exception": false, "start_time": "2025-01-16T17:54:08.257594", "status": "completed"}
 # %%time
 
 # display images by reading them locally
@@ -59,7 +65,7 @@ for image_file in pathlib.Path(source_data_dir).rglob("*.tif"):
     plt.axis("off")
     plt.show()
 
-# + papermill={"duration": 0.176502, "end_time": "2025-01-16T17:49:50.430753", "exception": false, "start_time": "2025-01-16T17:49:50.254251", "status": "completed"}
+# + papermill={"duration": 0.173802, "end_time": "2025-01-16T17:54:08.600285", "exception": false, "start_time": "2025-01-16T17:54:08.426483", "status": "completed"}
 # %%time
 
 # display images by reading them from isilon
@@ -69,7 +75,7 @@ for image_file in pathlib.Path(isilon_dir).rglob("*.tif"):
     plt.axis("off")
     plt.show()
 
-# + papermill={"duration": 0.054803, "end_time": "2025-01-16T17:49:50.488530", "exception": false, "start_time": "2025-01-16T17:49:50.433727", "status": "completed"}
+# + papermill={"duration": 0.054132, "end_time": "2025-01-16T17:54:08.657459", "exception": false, "start_time": "2025-01-16T17:54:08.603327", "status": "completed"}
 # %%time
 
 # remove files from isilon
