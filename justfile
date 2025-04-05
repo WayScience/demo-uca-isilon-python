@@ -12,7 +12,10 @@ hashbang := if os() == 'macos' {
 cifs_or_samba_mount_command := if os() == 'macos' {
 	'mount_smbfs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot ~/mnt/isilon'
 } else {
-	'sudo mount -t cifs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot -o username='
+    # reads in the username so it may be used with the mount command
+    # note: cifs-utils is required for this (but may not explicitly be stated by mount command).
+    # You may install it with, for example: `sudo apt-get install cifs-utils`
+	'read -p "Isilon/CIFS username: " cifs_username && sudo mount -t cifs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot -o username=$cifs_username,domainauto'
 }
 
 # show a list of just commands for this project
