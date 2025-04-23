@@ -24,14 +24,12 @@
 import io
 import os
 import pathlib
-import shutil
 import warnings
 
 import duckdb
 import matplotlib.pyplot as plt
 import minio
 import pandas as pd
-import urllib3
 from dotenv import load_dotenv
 from skimage import io as skio
 from urllib3.exceptions import InsecureRequestWarning
@@ -241,15 +239,15 @@ with duckdb.connect() as ddb:
         /* install httpfs for duckdb */
         INSTALL httpfs;
         LOAD httpfs;
-        
+
         /* add a custom secret for access to isilon */
         CREATE SECRET (
             TYPE s3,
-            KEY_ID '{os.getenv('ISILON_S3_KEY')}',
-            SECRET '{os.getenv('ISILON_S3_SECRET')}',
+            KEY_ID '{os.getenv("ISILON_S3_KEY")}',
+            SECRET '{os.getenv("ISILON_S3_SECRET")}',
             ENDPOINT 'data.ucdenver.pvt:9021'
         );
-        
+
         /* perform selection on the file */
         SELECT * FROM read_parquet('s3://{target_bucket}/example/example.parquet');
         """
