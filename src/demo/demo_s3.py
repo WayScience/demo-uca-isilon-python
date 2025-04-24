@@ -12,7 +12,7 @@
 #     name: python3
 # ---
 
-# + [markdown] papermill={"duration": 0.009573, "end_time": "2025-04-23T23:12:16.160401", "exception": false, "start_time": "2025-04-23T23:12:16.150828", "status": "completed"}
+# + [markdown] papermill={"duration": 0.009082, "end_time": "2025-04-24T22:42:17.665763", "exception": false, "start_time": "2025-04-24T22:42:17.656681", "status": "completed"}
 # # University of Colorado Anschutz Isilon with Python Demonstration Notebook
 #
 # This notebook demonstrates various work with files to better
@@ -20,7 +20,7 @@
 # storage solution performs when using the
 # [S3-API](https://infohub.delltechnologies.com/fr-fr/l/dell-powerscale-onefs-s3-api-guide/overview-5983/).
 
-# + papermill={"duration": 0.59795, "end_time": "2025-04-23T23:12:16.763027", "exception": false, "start_time": "2025-04-23T23:12:16.165077", "status": "completed"}
+# + papermill={"duration": 0.77896, "end_time": "2025-04-24T22:42:18.459890", "exception": false, "start_time": "2025-04-24T22:42:17.680930", "status": "completed"}
 import io
 import os
 import pathlib
@@ -41,7 +41,7 @@ load_dotenv()
 
 # We filter warnings to avoid cert check warnings about the host.
 # In this case we assume trust for data.ucdenver.pvt instead of
-# checking it with from the certificate.
+# checking it from the certificate.
 warnings.filterwarnings("ignore", category=InsecureRequestWarning)
 
 # setup common references for this notebook
@@ -50,7 +50,7 @@ target_data_dir = str(pathlib.Path("src/demo/data/output").resolve())
 target_bucket_object_path = "example/"
 target_bucket = "bandicoot"
 
-# + papermill={"duration": 0.007917, "end_time": "2025-04-23T23:12:16.772302", "exception": false, "start_time": "2025-04-23T23:12:16.764385", "status": "completed"}
+# + papermill={"duration": 0.012853, "end_time": "2025-04-24T22:42:18.474228", "exception": false, "start_time": "2025-04-24T22:42:18.461375", "status": "completed"}
 # Create MinIO client with your Isilon S3-compatible endpoint
 client = minio.Minio(
     endpoint="data.ucdenver.pvt:9021",
@@ -60,11 +60,14 @@ client = minio.Minio(
     cert_check=False,
 )
 
-# + papermill={"duration": 0.085469, "end_time": "2025-04-23T23:12:16.860645", "exception": false, "start_time": "2025-04-23T23:12:16.775176", "status": "completed"}
+# + papermill={"duration": 0.665245, "end_time": "2025-04-24T22:42:19.146700", "exception": false, "start_time": "2025-04-24T22:42:18.481455", "status": "completed"}
 # check if a bucket exists
-client.bucket_exists(bucket_name=target_bucket)
+if not client.bucket_exists(bucket_name=target_bucket):
+    raise LookupError(f"Bucket with name {target_bucket} does not exist on system.")
+else:
+    print(f"Found the bucket: {target_bucket}")
 
-# + papermill={"duration": 0.013032, "end_time": "2025-04-23T23:12:16.876687", "exception": false, "start_time": "2025-04-23T23:12:16.863655", "status": "completed"}
+# + papermill={"duration": 0.047243, "end_time": "2025-04-24T22:42:19.197816", "exception": false, "start_time": "2025-04-24T22:42:19.150573", "status": "completed"}
 # %%time
 
 # create a "directory" within the bucket by uploading an empty object
@@ -80,7 +83,7 @@ result = client.put_object(
 )
 result.object_name
 
-# + papermill={"duration": 0.012867, "end_time": "2025-04-23T23:12:16.892907", "exception": false, "start_time": "2025-04-23T23:12:16.880040", "status": "completed"}
+# + papermill={"duration": 0.01984, "end_time": "2025-04-24T22:42:19.219770", "exception": false, "start_time": "2025-04-24T22:42:19.199930", "status": "completed"}
 # List objects within the bucket
 
 
@@ -106,7 +109,7 @@ def print_objects_in_bucket(client: minio.api.Minio, bucket: str) -> None:
 
 print_objects_in_bucket(client=client, bucket=target_bucket)
 
-# + papermill={"duration": 0.267299, "end_time": "2025-04-23T23:12:17.161669", "exception": false, "start_time": "2025-04-23T23:12:16.894370", "status": "completed"}
+# + papermill={"duration": 0.175846, "end_time": "2025-04-24T22:42:19.407405", "exception": false, "start_time": "2025-04-24T22:42:19.231559", "status": "completed"}
 # %%time
 
 # upload the files to isilon one by one
@@ -117,11 +120,11 @@ for image_file in pathlib.Path(source_data_dir).rglob("*.tif"):
         file_path=image_file,
     )
 
-# + papermill={"duration": 0.012721, "end_time": "2025-04-23T23:12:17.179327", "exception": false, "start_time": "2025-04-23T23:12:17.166606", "status": "completed"}
+# + papermill={"duration": 0.031544, "end_time": "2025-04-24T22:42:19.446507", "exception": false, "start_time": "2025-04-24T22:42:19.414963", "status": "completed"}
 # show the remote objects
 print_objects_in_bucket(client=client, bucket=target_bucket)
 
-# + papermill={"duration": 0.092667, "end_time": "2025-04-23T23:12:17.275431", "exception": false, "start_time": "2025-04-23T23:12:17.182764", "status": "completed"}
+# + papermill={"duration": 0.12276, "end_time": "2025-04-24T22:42:19.580815", "exception": false, "start_time": "2025-04-24T22:42:19.458055", "status": "completed"}
 # %%time
 
 # download the files
@@ -140,11 +143,11 @@ for obj in client.list_objects(
         file_path=f"{target_data_dir}/{pathlib.Path(obj.object_name).name}",
     )
 
-# + papermill={"duration": 0.006265, "end_time": "2025-04-23T23:12:17.285311", "exception": false, "start_time": "2025-04-23T23:12:17.279046", "status": "completed"}
+# + papermill={"duration": 0.014355, "end_time": "2025-04-24T22:42:19.605857", "exception": false, "start_time": "2025-04-24T22:42:19.591502", "status": "completed"}
 # show the files
 print("List of files:\n", list(pathlib.Path(source_data_dir).rglob("*.tif")))
 
-# + papermill={"duration": 0.159671, "end_time": "2025-04-23T23:12:17.449096", "exception": false, "start_time": "2025-04-23T23:12:17.289425", "status": "completed"}
+# + papermill={"duration": 0.1723, "end_time": "2025-04-24T22:42:19.788132", "exception": false, "start_time": "2025-04-24T22:42:19.615832", "status": "completed"}
 # %%time
 
 # display images by reading them locally
@@ -154,7 +157,7 @@ for image_file in pathlib.Path(source_data_dir).rglob("*.tif"):
     plt.axis("off")
     plt.show()
 
-# + papermill={"duration": 0.304935, "end_time": "2025-04-23T23:12:17.759226", "exception": false, "start_time": "2025-04-23T23:12:17.454291", "status": "completed"}
+# + papermill={"duration": 0.354483, "end_time": "2025-04-24T22:42:20.155797", "exception": false, "start_time": "2025-04-24T22:42:19.801314", "status": "completed"}
 # %%time
 
 # display images by reading them from isilon s3
@@ -179,7 +182,7 @@ for obj in client.list_objects(
     plt.axis("off")
     plt.show()
 
-# + papermill={"duration": 0.026836, "end_time": "2025-04-23T23:12:17.791705", "exception": false, "start_time": "2025-04-23T23:12:17.764869", "status": "completed"}
+# + papermill={"duration": 0.035105, "end_time": "2025-04-24T22:42:20.194442", "exception": false, "start_time": "2025-04-24T22:42:20.159337", "status": "completed"}
 # %%time
 
 # remove files from isilon
@@ -190,11 +193,11 @@ for obj in client.list_objects(
 ):
     client.remove_object(bucket_name=target_bucket, object_name=obj.object_name)
 
-# + papermill={"duration": 0.01341, "end_time": "2025-04-23T23:12:17.811103", "exception": false, "start_time": "2025-04-23T23:12:17.797693", "status": "completed"}
+# + papermill={"duration": 0.022626, "end_time": "2025-04-24T22:42:20.231743", "exception": false, "start_time": "2025-04-24T22:42:20.209117", "status": "completed"}
 # show the remote objects
 print_objects_in_bucket(client=client, bucket=target_bucket)
 
-# + papermill={"duration": 0.036111, "end_time": "2025-04-23T23:12:17.853829", "exception": false, "start_time": "2025-04-23T23:12:17.817718", "status": "completed"}
+# + papermill={"duration": 0.04769, "end_time": "2025-04-24T22:42:20.290585", "exception": false, "start_time": "2025-04-24T22:42:20.242895", "status": "completed"}
 # create a dataframe and export to Parquet
 df = pd.DataFrame(
     {
@@ -214,7 +217,7 @@ client.fput_object(
 # show the remote objects
 print_objects_in_bucket(client=client, bucket=target_bucket)
 
-# + papermill={"duration": 0.630102, "end_time": "2025-04-23T23:12:18.487205", "exception": false, "start_time": "2025-04-23T23:12:17.857103", "status": "completed"}
+# + papermill={"duration": 0.44722, "end_time": "2025-04-24T22:42:20.744181", "exception": false, "start_time": "2025-04-24T22:42:20.296961", "status": "completed"}
 # %%time
 
 # read the Parquet from S3
@@ -230,7 +233,7 @@ pd.read_parquet(
     },
 )
 
-# + papermill={"duration": 0.608262, "end_time": "2025-04-23T23:12:19.099176", "exception": false, "start_time": "2025-04-23T23:12:18.490914", "status": "completed"}
+# + papermill={"duration": 0.990053, "end_time": "2025-04-24T22:42:21.738553", "exception": false, "start_time": "2025-04-24T22:42:20.748500", "status": "completed"}
 # %%time
 
 with duckdb.connect() as ddb:
@@ -255,7 +258,7 @@ with duckdb.connect() as ddb:
 
 df
 
-# + papermill={"duration": 0.020188, "end_time": "2025-04-23T23:12:19.124357", "exception": false, "start_time": "2025-04-23T23:12:19.104169", "status": "completed"}
+# + papermill={"duration": 0.035391, "end_time": "2025-04-24T22:42:21.783523", "exception": false, "start_time": "2025-04-24T22:42:21.748132", "status": "completed"}
 # remove the Parquet file from the bucket
 client.remove_object(
     bucket_name=target_bucket,
