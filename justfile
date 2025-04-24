@@ -9,12 +9,13 @@ hashbang := if os() == 'macos' {
 }
 
 # cifs / samba command based on operating system
+# note for linux / non-mac:
+# reads in the username so it may be used with the mount command
+# note: cifs-utils is required for this (but may not explicitly be stated by mount command).
+# You may install it with, for example: `sudo apt-get install cifs-utils`
 cifs_or_samba_mount_command := if os() == 'macos' {
 	'mount_smbfs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot ~/mnt/isilon'
 } else {
-    # reads in the username so it may be used with the mount command
-    # note: cifs-utils is required for this (but may not explicitly be stated by mount command).
-    # You may install it with, for example: `sudo apt-get install cifs-utils`
 	'read -p "Isilon/CIFS username: " cifs_username && sudo mount -t cifs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot -o username=$cifs_username,domainauto'
 }
 
@@ -49,8 +50,11 @@ default:
     # prepare the data
     uv run python src/demo/prepare_files.py
 
-    # run the test, storing the results in a notebook
-    uv run papermill src/demo/demo.ipynb src/demo/demo.ipynb
+    # run the demo for mounted storage, storing the results in a notebook
+    uv run papermill src/demo/demo_mounted.ipynb src/demo/demo_mounted.ipynb
+
+    # run the demo for s3 storage, storing the results in a notebook
+    uv run papermill src/demo/demo_s3.ipynb src/demo/demo_s3.ipynb
 
     # share a friendly message
     echo "Demo completed. The results are stored in src/demo/demo.ipynb."

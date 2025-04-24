@@ -15,10 +15,17 @@ classifiers = [
 ]
 dynamic = [ "version" ]
 dependencies = [
+  "duckdb>=1.2.2",
+  "fsspec>=2025.3.2",
   "jupyterlab>=4.3.4",
   "matplotlib>=3.10",
+  "minio>=7.2.15",
+  "pandas>=2.2.3",
   "papermill>=2.6",
+  "pyarrow>=19.0.1",
+  "python-dotenv>=1.1",
   "requests>=2.32.3",
+  "s3fs>=2025.3.2",
   "scikit-image>=0.25",
 ]
 
@@ -64,7 +71,9 @@ lint.select = [
   "W",
 ]
 # ignore typing rules for demo file
-lint.per-file-ignores."demo.py" = [ "E501" ]
+lint.per-file-ignores."demo_mounted.py" = [ "E501" ]
+lint.per-file-ignores."demo_s3.ipynb" = [ "E501", "W293" ]
+lint.per-file-ignores."demo_s3.py" = [ "E501", "W293" ]
 
 [tool.jupytext]
 formats = "ipynb,py:light"
