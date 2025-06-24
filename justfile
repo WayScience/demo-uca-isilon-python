@@ -16,7 +16,7 @@ hashbang := if os() == 'macos' {
 cifs_or_samba_mount_command := if os() == 'macos' {
 	'mount_smbfs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot ~/mnt/isilon'
 } else {
-	'read -p "Isilon/CIFS username: " cifs_username && sudo mount -t cifs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot -o username=$cifs_username,domainauto'
+	'read -p "Isilon/CIFS username: " cifs_username && sudo mount -t cifs //data.ucdenver.pvt/dept/SOM/DBMI/Bandicoot ~/mnt/bandicoot -o username=$cifs_username,domainauto'
 }
 
 # show a list of just commands for this project
