@@ -1,6 +1,5 @@
 """Tests for the mounted CIFS read, list, and bounded write benchmarks."""
 
-import os
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -14,7 +13,7 @@ from src.demo import benchmark_mounted
 
 class BenchmarkReadTests(unittest.TestCase):
     def test_repeated_reads_leave_source_unchanged(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "image.tif"
             content = b"an image" * 100
             source.write_bytes(content)
@@ -27,7 +26,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertEqual(source.read_bytes(), content)
 
     def test_source_requires_cifs_mount_and_stays_inside_it(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             source = mountpoint / "image.tif"
             source.write_bytes(b"image")
@@ -59,7 +58,7 @@ class BenchmarkReadTests(unittest.TestCase):
                     )
 
     def test_directory_selection_rejects_files_and_mount_escapes(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             subdir = mountpoint / "images"
             subdir.mkdir()
@@ -81,7 +80,7 @@ class BenchmarkReadTests(unittest.TestCase):
                     benchmark_mounted.validate_directory(mountpoint, Path("../outside"))
 
     def test_cli_reports_each_read_and_median(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             source = mountpoint / "image.tif"
             source.write_bytes(b"image" * 100)
@@ -110,7 +109,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertEqual(source.read_bytes(), b"image" * 100)
 
     def test_cli_reports_directory_listing_time_and_count(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             (mountpoint / "image.tif").write_bytes(b"image")
             (mountpoint / "images").mkdir()
@@ -133,7 +132,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertTrue((mountpoint / "image.tif").exists())
 
     def test_write_creates_only_a_new_directory_and_new_file(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             sentinel = mountpoint / "keep.txt"
             sentinel.write_text("do not change")
@@ -159,7 +158,7 @@ class BenchmarkReadTests(unittest.TestCase):
             )
 
     def test_write_random_pattern_has_nonzero_content(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             with (
                 patch("os.path.ismount", return_value=True),
@@ -176,7 +175,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertNotEqual(content, bytes(size))
 
     def test_write_rejects_invalid_target_and_existing_directory(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             with (
                 patch("os.path.ismount", return_value=False),
@@ -203,7 +202,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertEqual({p.name for p in existing.iterdir()}, {"keep.txt"})
 
     def test_failed_sync_preserves_partial_file_and_reports_its_path(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             with (
                 patch("os.path.ismount", return_value=True),
@@ -221,7 +220,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertEqual((run_dir / "zeros.bin").stat().st_size, 1024 * 1024)
 
     def test_write_stops_if_mount_disappears_before_file_creation(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             with (
                 patch("os.path.ismount", side_effect=[True, False]),
@@ -238,7 +237,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertEqual(list(run_dir.iterdir()), [])
 
     def test_cli_write_reports_speed_and_new_directory(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             mountpoint = Path(directory)
             output = StringIO()
             with (
@@ -265,7 +264,7 @@ class BenchmarkReadTests(unittest.TestCase):
             self.assertEqual(len(list(mountpoint.iterdir())), 1)
 
     def test_directory_listing_counts_entries_without_modifying_them(self) -> None:
-        with tempfile.TemporaryDirectory(dir=os.environ["TMPDIR"]) as directory:
+        with tempfile.TemporaryDirectory() as directory:
             source = Path(directory)
             (source / "image.tif").write_bytes(b"image")
             (source / "subdir").mkdir()
