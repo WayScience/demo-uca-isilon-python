@@ -58,3 +58,15 @@ default:
 
     # share a friendly message
     echo "Demo completed. The results are stored in src/demo/demo.ipynb."
+
+# benchmark an existing file on a mounted CIFS/SMB share (read-only)
+@benchmark-isilon mount file:
+    uv run --no-sync python src/demo/benchmark_mounted.py --mount "{{mount}}" --file "{{file}}"
+
+# benchmark immediate directory enumeration on a mounted CIFS/SMB share (read-only)
+@benchmark-isilon-dir mount directory:
+    uv run --no-sync python src/demo/benchmark_mounted.py --mount "{{mount}}" --directory "{{directory}}"
+
+# write at most 1 GiB in a newly created directory; leave benchmark data intact
+@benchmark-isilon-write mount pattern size_mib='1024':
+    uv run --no-sync python src/demo/benchmark_mounted.py --mount "{{mount}}" --write-mib "{{size_mib}}" --write-pattern "{{pattern}}"
